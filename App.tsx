@@ -7,7 +7,7 @@ import AppLoading from "expo-app-loading";
 import { FontAwesome } from "@expo/vector-icons";
 
 // screens
-import { Home, Login } from "./screens/";
+import { Home, Login, Cart } from "./screens/";
 
 import { images, icons, COLORS, FONTS, SIZES } from "./constants";
 
@@ -36,7 +36,26 @@ const App = () => {
 
   return (
     <NavigationContainer theme={theme}>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{
+          headerTintColor: COLORS.black,
+          headerTitleStyle: {
+            ...FONTS.h2,
+          },
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+          headerLeft: ({ onPress }) => (
+            <TouchableOpacity
+              style={{ marginLeft: SIZES.padding }}
+              onPress={onPress}
+            >
+              <FontAwesome name="chevron-left" size={22} color="black" />
+            </TouchableOpacity>
+          ),
+        }}
+      >
         <Stack.Screen
           name="Login"
           component={Login}
@@ -47,39 +66,23 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{
-            title: "SHOE SELECTOR",
-            headerStyle: {
-              //backgroundColor: '#f4511e',
-            },
-            headerTintColor: COLORS.lightGray,
-            headerTitleStyle: {
-              ...FONTS.navTitle,
-            },
-            headerLeft: ({ onPress }) => (
-              <TouchableOpacity
-                style={{ marginLeft: SIZES.padding }}
-                onPress={onPress}
-              >
-                <FontAwesome
-                  name="chevron-left"
-                  size={24}
-                  color="black"
-                />
-              </TouchableOpacity>
-            ),
+          options={({ navigation }) => ({
+            title: "PIZZA DELICACY",
             headerRight: () => (
               <TouchableOpacity
                 style={{ marginRight: SIZES.padding }}
-                onPress={() => console.log("Pressed")}
+                onPress={() => navigation.navigate("Cart")}
               >
-                <FontAwesome
-                  name="shopping-cart"
-                  size={24}
-                  color="black"
-                />
+                <FontAwesome name="shopping-cart" size={22} color="black" />
               </TouchableOpacity>
             ),
+          })}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={Cart}
+          options={{
+            title: 'CART',
           }}
         />
       </Stack.Navigator>
